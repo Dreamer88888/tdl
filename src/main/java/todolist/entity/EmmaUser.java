@@ -6,30 +6,26 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import todolist.enums.Progress;
 
 import java.util.UUID;
 
 @Entity
-@Table(name = "todolist")
+@Table(name = "emma_user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ToDoList {
+public class EmmaUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     private String name;
-    private Progress progress;
-    private String description;
-    private long date;
+    private String username;
 
-    @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "project_id")
-    private Project project;
+    private String password;
+    private long createdAt;
 
 }

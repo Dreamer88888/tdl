@@ -2,9 +2,14 @@ package todolist.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import todolist.dto.ProjectRequestDto;
 import todolist.dto.ProjectResponseDto;
+import todolist.dto.ProjectUpdateDto;
+import todolist.entity.EmmaUser;
 import todolist.entity.Project;
+import todolist.enums.Progress;
 import todolist.repository.ProjectRepository;
+import todolist.utils.ProgressConverter;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -34,7 +39,29 @@ public class ProjectService {
                  .build();
     }
 
-//    public Project add()
+    public Project add(ProjectRequestDto projectRequestDto) {
+        EmmaUser user = new EmmaUser();
+
+        Project project = Project.builder()
+                .title(projectRequestDto.getTitle())
+                .dueAt(projectRequestDto.getDueAt())
+                .user(user)
+                .createdAt(System.currentTimeMillis())
+                .progress(Progress.TO_DO)
+                .build();
+
+        return projectRepository.save(project);
+    }
+
+    public Project update(ProjectUpdateDto projectUpdateDto) {
+        Project updatedProject = findById(projectUpdateDto.getId());
+
+        updatedProject.setTitle(projectUpdateDto.getTitle());
+        updatedProject.setDueAt(projectUpdateDto.getDueAt());
+        updatedProject.setProgress(ProgressConverter.convert(projectUpdateDto.getProgress()));
+
+        return projectRepository.save(updatedProject);
+    }
 
     private Project findById(UUID id) {
         Optional<Project> project = projectRepository.findById(id);

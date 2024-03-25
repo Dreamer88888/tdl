@@ -1,5 +1,6 @@
 package todolist.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,5 +26,10 @@ public class Project {
     private long createdAt;
     private long dueAt;
     private Progress progress;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "emma_user_id")
+    private EmmaUser user;
 
 }
