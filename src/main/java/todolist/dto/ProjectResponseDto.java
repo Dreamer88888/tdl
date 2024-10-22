@@ -16,6 +16,6 @@ import java.util.List;
 public class ProjectResponseDto {
 
     private Project project;
-    private List<ToDoList> toDoLists;
+    private List<ToDoList> toDos;
 
 }

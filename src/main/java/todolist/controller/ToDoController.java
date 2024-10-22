@@ -1,5 +1,6 @@
 package todolist.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/todo")
+@RequestMapping("api/todo")
 public class ToDoController {
 
     private final ToDoService toDoService;
@@ -34,16 +35,16 @@ public class ToDoController {
     }
 
     @PostMapping
-    public ResponseEntity<ToDoList> add(@RequestBody ToDoListRequestDto toDoListRequestDto, BindingResult bindingResult) {
+    public ResponseEntity<ToDoList> add(@Valid @RequestBody ToDoListRequestDto toDoListRequestDto, BindingResult bindingResult) {
         return ResponseEntity.status(201).body(toDoService.add(toDoListRequestDto));
     }
 
     @PatchMapping
-    public ResponseEntity<ToDoList> update(@RequestBody ToDoListUpdateDto toDoListUpdateDto, BindingResult bindingResult) {
+    public ResponseEntity<ToDoList> update(@Valid @RequestBody ToDoListUpdateDto toDoListUpdateDto, BindingResult bindingResult) {
         return ResponseEntity.ok(toDoService.update(toDoListUpdateDto));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable String id) {
         toDoService.delete(UUID.fromString(id));
 

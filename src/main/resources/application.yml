@@ -9,4 +9,40 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
+
+jwt:
+  secret: CXEtFddQ8QpRXXYLIkiQNPZoIno07cwR9F1DTm034xo0NW4lrR
+  expirationInMs: 36000000
+  header: Authorization
+  prefix: "Bearer "
+
+response:
+  success:
+    code:
+      project: "PJ-00"
+      todo: "TD-00"
+      user: "US-00"
+      role: "RL-00"
+      auth: "AU-00"
+    message:
+      project: "Transaction in Project entity success"
+      todo: "Transaction in To Do entity success"
+      user: "Transaction in User entity success"
+      role: "Transaction in Role entity success"
+      auth: "Login success"
+  invalid-input:
+    code: IV-01
+    message: Invalid input
+  not-found:
+    code: NF-01
+    message: Entity not found
+  access-denied:
+    code:
+      general: AD-02
+      expired: EX-02
+      invalid: IV-02
+    message:
+      general: Access denied
+      expired: JWT is expired
+      invalid: Invalid JWT

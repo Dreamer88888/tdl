@@ -1,5 +1,6 @@
 package todolist.dto;
 
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,8 @@ public class ToDoListUpdateDto {
     private String description;
     private String progress;
 
-    @NotNull
+    @NotNull(message = "Date must be filled")
+    @Future(message = "Date must exceed the current date")
     private long date;
 
 }

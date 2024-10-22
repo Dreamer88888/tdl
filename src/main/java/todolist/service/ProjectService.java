@@ -9,6 +9,7 @@ import todolist.entity.EmmaUser;
 import todolist.entity.Project;
 import todolist.enums.Progress;
 import todolist.repository.ProjectRepository;
+import todolist.utils.AuthUtil;
 import todolist.utils.ProgressConverter;
 
 import java.util.List;
@@ -21,11 +22,13 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
     private final ToDoService toDoService;
+    private final UserService userService;
 
     @Autowired
-    public ProjectService(ProjectRepository projectRepository, ToDoService toDoService) {
+    public ProjectService(ProjectRepository projectRepository, ToDoService toDoService, UserService userService) {
         this.projectRepository = projectRepository;
         this.toDoService = toDoService;
+        this.userService = userService;
     }
 
     public List<Project> findAllProjects() {
@@ -35,12 +38,13 @@ public class ProjectService {
     public ProjectResponseDto findProjectById(UUID id) {
          return ProjectResponseDto.builder()
                  .project(findById(id))
-                 .toDoLists(toDoService.findAllByProjectId(id))
+                 .toDos(toDoService.findAllByProjectId(id))
                  .build();
     }
 
     public Project add(ProjectRequestDto projectRequestDto) {
-        EmmaUser user = new EmmaUser();
+        UUID userId = AuthUtil.getUserId();
+        EmmaUser user = userService.findById(userId);
 
         Project project = Project.builder()
                 .title(projectRequestDto.getTitle())
@@ -62,6 +66,15 @@ public class ProjectService {
 
         return projectRepository.save(updatedProject);
     }
+
+    public void delete(UUID id) {
+        if (!projectRepository.existsById(id)) {
+            throw new NoSuchElementException(String.format("Project with id %s not found", id));
+        }
+        projectRepository.deleteById(id);
+    }
+
+
 
     private Project findById(UUID id) {
         Optional<Project> project = projectRepository.findById(id);
