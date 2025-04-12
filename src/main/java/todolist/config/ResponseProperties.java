@@ -75,6 +75,7 @@ public class ResponseProperties {
             private String general;
             private String expired;
             private String invalid;
+            private String incorrect;
         }
 
         @Data
@@ -83,6 +84,7 @@ public class ResponseProperties {
             private String general;
             private String expired;
             private String invalid;
+            private String incorrect;
         }
     }
 

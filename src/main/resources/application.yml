@@ -42,7 +42,9 @@ response:
       general: AD-02
       expired: EX-02
       invalid: IV-02
+      incorrect: IC-02
     message:
       general: Access denied
       expired: JWT is expired
       invalid: Invalid JWT
+      incorrect: Incorrect credentials

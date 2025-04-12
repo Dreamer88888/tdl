@@ -30,15 +30,13 @@ public class AuthController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto, BindingResult bindingResult) {
-        log.info("username: {}, password: {}", loginRequestDto.getUsername(), loginRequestDto.getPassword());
+    public ResponseEntity<ResponseDto<Object>> login(@Valid @RequestBody LoginRequestDto loginRequestDto, BindingResult bindingResult) {
         LoginResponseDto loginResponse = userService.login(loginRequestDto);
 
         ResponseDto<Object> responseDto = ResponseDtoUtil.generateResponse(responseProperties.getSuccess().getCode().getAuth(),
                 responseProperties.getSuccess().getMessage().getAuth(), loginResponse);
-        log.info(responseDto.toString());
 
-        return ResponseEntity.ok(loginResponse);
+        return ResponseEntity.ok(responseDto);
     }
 
 //    @PostMapping("login")
